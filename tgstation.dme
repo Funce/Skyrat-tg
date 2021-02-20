@@ -3919,6 +3919,7 @@
 #include "modular_skyrat\modules\faxmachines\faxes.dm"
 #include "modular_skyrat\modules\faxmachines\faxmachine.dm"
 #include "modular_skyrat\modules\faxmachines\photocopier.dm"
+#include "modular_skyrat\modules\faxmachines\topic.dm"
 #include "modular_skyrat\modules\firefighter\code\firefighter.dm"
 #include "modular_skyrat\modules\ghostcafe\code\datums\elements\dusts_on_catatonia.dm"
 #include "modular_skyrat\modules\ghostcafe\code\datums\elements\dusts_on_leaving_area.dm"
