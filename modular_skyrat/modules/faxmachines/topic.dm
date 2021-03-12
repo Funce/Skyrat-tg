@@ -103,7 +103,7 @@
 		if(!check_rights(R_FUN))
 			return
 
-		//fax_panel(usr)
+		fax_panel(usr)
 		return
 
 /*

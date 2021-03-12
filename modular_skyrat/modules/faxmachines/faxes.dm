@@ -25,14 +25,17 @@ GLOBAL_LIST_EMPTY(adminfaxes)
 	set name = "Fax Panel"
 	set desc = "Abuse harder than you ever have before with this handy dandy semi-misc stuff menu"
 	set category = "Admin.Fun"
-	SSblackbox.record_feedback("tally", "admin_verb", 1, "Fax Panel") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	if (holder)
+		holder.fax_panel(usr)
 	var/datum/fax_panel/tgui  = new(usr)//create the datum
 	tgui.ui_interact(usr)//datum has a tgui component, here we open the window
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Fax Panel") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	return
 
 /datum/fax_panel
 	var/client/holder //client of whoever is using this datum
 	var/is_funmin = FALSE
-	var/list/fax_list = new list[]
+	var/list/fax_list
 
 /datum/fax_panel/New(user)//user can either be a client or a mob due to byondcode(tm)
 	if (istype(user, /client))
@@ -44,8 +47,9 @@ GLOBAL_LIST_EMPTY(adminfaxes)
 
 	is_funmin = check_rights(R_FUN)
 
-for(var/thing in GLOB.adminfaxes)
-	fax_list[] += thing
+	LAZYINITLIST(fax_list)
+	for(var/thing in GLOB.adminfaxes)
+		LAZYADD(fax_list, thing)
 
 /datum/fax_panel/ui_state(mob/user)
 	return GLOB.admin_state
@@ -65,6 +69,7 @@ for(var/thing in GLOB.adminfaxes)
 	data["fax_list"] = fax_list
 	return data
 
+/*
 /datum/admins/proc/fax_panel(var/mob/living/user)
 	var/dat = ""
 	for(var/thing in GLOB.adminfaxes)
@@ -74,8 +79,8 @@ for(var/thing in GLOB.adminfaxes)
 		dat += "<td>[afax.from_department]</td>"
 		dat += "<td>[afax.to_department]</td>"
 		dat += "<td>[worldtime2text(afax.sent_at)]</td>"
+*/
 
-/*
 /datum/admins/proc/fax_panel(var/mob/living/user)
 	var/dat = "<A align='right' href='?src=[REF()];[HrefToken(TRUE)];refreshfaxpanel=1'>Refresh</A>"
 	dat += "<A align='right' href='?src=[REF()];[HrefToken(TRUE)];AdminFaxCreate=1;faxtype=Custom'>Create Fax</A>"
@@ -137,4 +142,3 @@ for(var/thing in GLOB.adminfaxes)
 	var/datum/browser/popup = new(user, "fax_panel", "Fax Panel", 950, 450)
 	popup.set_content(dat)
 	popup.open()
-*/
