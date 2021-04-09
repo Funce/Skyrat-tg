@@ -35,6 +35,7 @@ GLOBAL_LIST_EMPTY(adminfaxes)
 /datum/fax_panel
 	var/client/holder //client of whoever is using this datum
 	var/is_funmin = FALSE
+	var/list/admin_fax_list
 	var/list/fax_list
 
 /datum/fax_panel/New(user)//user can either be a client or a mob due to byondcode(tm)
@@ -47,9 +48,15 @@ GLOBAL_LIST_EMPTY(adminfaxes)
 
 	is_funmin = check_rights(R_FUN)
 
+	/*
 	LAZYINITLIST(fax_list)
-	for(var/thing in GLOB.adminfaxes)
+	for(var/thing in GLOB.faxes)
 		LAZYADD(fax_list, thing)
+
+	LAZYINITLIST(admin_fax_list)
+	for(var/thing in GLOB.adminfaxes)
+		LAZYADD(admin_fax_list, thing)
+	*/
 
 /datum/fax_panel/ui_state(mob/user)
 	return GLOB.admin_state
@@ -66,8 +73,12 @@ GLOBAL_LIST_EMPTY(adminfaxes)
 /datum/fax_panel/ui_data(mob/user)
 	var/list/data = list()
 	data["is_funmin"] = is_funmin
-	data["fax_list"] = fax_list
+	data["admin_fax_list"] = GLOB.adminfaxes
+	data["fax_list"] = GLOB.faxes
 	return data
+
+/datum/fax_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
 
 /*
 /datum/admins/proc/fax_panel(var/mob/living/user)
